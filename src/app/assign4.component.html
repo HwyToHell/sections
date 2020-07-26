@@ -18,13 +18,11 @@
     </div>
     <div class="row">
       <div class="col-sm">
-        <app-odd *ngFor="let number of numbers">
-          <p *ngIf="number%2 !== 0" style="color: blue">odd: {{number}}</p>
+        <app-odd *ngFor="let number of oddNumbers" [number]="number">
         </app-odd>
       </div>
       <div class="col-sm-6">
-        <app-even *ngFor="let number of numbers">
-          <p *ngIf="number%2 === 0" style="color: red">even: {{number}}</p>
+        <app-even *ngFor="let number of evenNumbers" [number]="number">
         </app-even>
       </div>
     </div>

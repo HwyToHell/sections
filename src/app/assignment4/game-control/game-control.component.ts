@@ -6,27 +6,19 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./game-control.component.css']
 })
 export class GameControl implements OnInit {
-  static counter: number = 0;
-  isGameRunning: boolean = false; 
+  counter: number = 0;
   timer: number;
   @Output() timerTick = new EventEmitter<number>();
 
-  constructor() {
-    console.log(GameControl.counter);
-   }
+  constructor() {}
 
   ngOnInit(): void {
   }
  
-  // increment() { uses wrong this }
-  increment = () => {
-    ++GameControl.counter;
-    // console.log("counter: " + GameControl.counter);
-    this.timerTick.emit(GameControl.counter);
-  }
-
   onStart() {
-    this.timer = window.setInterval(this.increment, 1000);
+    this.timer = setInterval(() => {
+      this.timerTick.emit(++this.counter);
+    }, 1000);
   }
 
   onStop() {

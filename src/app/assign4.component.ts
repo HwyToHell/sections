@@ -6,11 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: []
 })
 export class Assign4Component {
-  numbers = [];
-
+  evenNumbers: number[] = [];
+  oddNumbers: number[] = [];
   
   onTick(count: number) {
     // console.log("onTick: " + count);
-    this.numbers.push(count);
+    if (count % 2 === 0) {
+      this.evenNumbers.push(count);
+    } else {
+      this.oddNumbers.push(count);
+    }
   }
+
 }
