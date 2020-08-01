@@ -4,7 +4,7 @@
 
 ## Structure
 
-- Each section (e.g. 5-components-databinding, assignment4) holds the neccessary components in its subfolder and an app.module.ts file, that needs to be copied to /app in order to run the code of the section
+- Each section (e.g. 5-databinding, assignment4) holds the neccessary components in its subfolder and an app.module.ts file, that needs to be copied to /app in order to run the code of the section
 - run section: move app.module.ts up one directory to /app
 
 ## Dependencies
