@@ -1,28 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AccountsService } from './accounts.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './section9.component.html',
-  styleUrls: ['./section9.component.css']
+  styleUrls: ['./section9.component.css'],
+  providers: [AccountsService]
 })
-export class Section9Component {
-  accounts = [
-    {
-      name: 'Master Account',
-      status: 'active'
-    },
-    {
-      name: 'Testaccount',
-      status: 'inactive'
-    },
-    {
-      name: 'Hidden Account',
-      status: 'unknown'
-    }
-  ];
+
+export class Section9Component implements OnInit{
+  accounts: {name: string, status: string}[] = [];
+
+  constructor(private accountsSvs: AccountsService) {}
+
+  ngOnInit() {
+    // arrays are assigned by reference
+    this.accounts = this.accountsSvs.accounts;
+  }
 
   onAccountAdded(newAccount: {name: string, status: string}) {
-    this.accounts.push(newAccount);
+    this.accountsSvs.addAccount(newAccount.name, newAccount.status);
   }
 
   onStatusChanged(updateInfo: {id: number, newStatus: string}) {
