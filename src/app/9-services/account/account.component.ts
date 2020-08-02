@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { LoggingService } from '../logging.service';
+// import { LoggingService } from '../logging.service';
 import { AccountsService } from '../accounts.service';
 
 @Component({
@@ -14,11 +14,12 @@ export class AccountComponent {
 
   constructor(
     // service injections
-    private loggingService: LoggingService,
+    // private loggingService: LoggingService,
     private accountsSvs: AccountsService) {};
 
   onSetTo(status: string) {
     this.accountsSvs.updateStatus(this.id, status);
     // this.loggingService.logStatusChange(status);
+    this.accountsSvs.statusUpdated.emit(status);
   }
 }

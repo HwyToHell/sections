@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { LoggingService } from '../logging.service';
+//import { LoggingService } from '../logging.service';
 import { AccountsService } from '../accounts.service';
 
 @Component({
@@ -13,8 +13,11 @@ export class NewAccountComponent {
 
   constructor(
     // service injection
-    private loggingService: LoggingService,
-    private accountsSvs: AccountsService) {};
+    // private loggingService: LoggingService,
+    private accountsSvs: AccountsService) {
+      this.accountsSvs.statusUpdated.subscribe(
+        (status: string) => alert("New status: " + status) );
+    }
 
   onCreateAccount(accountName: string, accountStatus: string) {
     this.accountsSvs.addAccount(accountName, accountStatus);
