@@ -18,11 +18,11 @@ export class Section9Component implements OnInit{
     this.accounts = this.accountsSvs.accounts;
   }
 
-  onAccountAdded(newAccount: {name: string, status: string}) {
+/*   onAccountAdded(newAccount: {name: string, status: string}) {
     this.accountsSvs.addAccount(newAccount.name, newAccount.status);
   }
 
   onStatusChanged(updateInfo: {id: number, newStatus: string}) {
     this.accounts[updateInfo.id].status = updateInfo.newStatus;
   }
-}
+ */}
