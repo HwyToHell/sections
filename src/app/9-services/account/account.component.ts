@@ -6,18 +6,19 @@ import { AccountsService } from '../accounts.service';
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css'],
-  providers: [LoggingService]
+  // providers: [LoggingService]
 })
 export class AccountComponent {
   @Input() account: {name: string, status: string};
   @Input() id: number;
 
   constructor(
+    // service injections
     private loggingService: LoggingService,
     private accountsSvs: AccountsService) {};
 
   onSetTo(status: string) {
     this.accountsSvs.updateStatus(this.id, status);
-    this.loggingService.logStatusChange(status);
+    // this.loggingService.logStatusChange(status);
   }
 }

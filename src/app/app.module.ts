@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { Section9Component } from './9-services/section9.component';
 import { AccountComponent } from './9-services/account/account.component';
 import { NewAccountComponent } from './9-services/new-account/new-account.component';
+import { AccountsService } from './9-services/accounts.service';
+import { LoggingService } from './9-services/logging.service';
 
 
 
@@ -19,7 +21,7 @@ import { NewAccountComponent } from './9-services/new-account/new-account.compon
     BrowserModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [AccountsService, LoggingService],
   //bootstrap: [AppComponent],
   bootstrap: [Section9Component]
 })
