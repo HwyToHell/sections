@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 
 import { ServersService } from '../servers.service';
 
@@ -17,6 +17,13 @@ export class ServerComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.data.subscribe(
+      (data: Data) => {
+        this.server = data['server'];
+      }
+    );
+
+/*  commented out for using resolver   
     // + converts from string to number
     //const id = +this.route.snapshot.params['id'];
     //this.server = this.serversService.getServer(id);
@@ -27,7 +34,7 @@ export class ServerComponent implements OnInit {
         this.server = this.serversService.getServer(id);
         console.log("subscr id:", typeof(id), id);
       }
-    )
+    ) */
   }
 
   onEdit() {
