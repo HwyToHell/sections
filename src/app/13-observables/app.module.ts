@@ -19,7 +19,7 @@ import { AppRoutingModule } from './13-observables/app-routing.module';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [ServersService, AuthService, AuthGuard, CanDeactivateGuard, ServerResolver],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

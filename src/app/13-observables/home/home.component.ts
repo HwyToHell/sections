@@ -20,13 +20,24 @@ export class HomeComponent implements OnInit, OnDestroy {
       let count = 0;
       setInterval( () => {
         observer.next(count);
+        if (count == 2) {
+          observer.complete();
+        }
+        if (count > 3) {
+          observer.error('count > 3');
+        }
         ++count;
       }, 1000);
     });
 
     this.obsSubscription = customObservable.subscribe(data => {
       console.log("custom obs:", data);
-    })
+    }, error => {
+      console.log(error);
+      alert(error);
+    }, complete => {
+      console.log("completed!");
+    });
 
   }
 
