@@ -16,7 +16,8 @@ export class AppComponent {
 
   // use @ViewChild method
   onSubmit() {
-    console.log(this.signupForm);
+    //console.log(this.signupForm);
+    console.log(this.signupForm.valid);
   }
 
 
