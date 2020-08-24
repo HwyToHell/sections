@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -7,12 +7,25 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  // use ViewChild method, pointing to local reference in template
+  @ViewChild('form') signupForm: NgForm;
+
   suggestUserName() {
     const suggestedName = 'Superuser';
   }
 
+  // use @ViewChild method
+  onSubmit() {
+    console.log(this.signupForm);
+  }
+
+
+  // use NgForm model method
+  /* 
   onSubmit(form: NgForm) {
     console.log("submitted");
-    console.log(form.value);
+    console.log(form);
+    //console.log(form.value);
   }
+  */
 }
