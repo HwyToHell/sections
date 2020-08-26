@@ -12,6 +12,14 @@ export class AppComponent {
   defaultQuestion = "pet";
   answer = '';
   genders = ['male', 'female'];
+  user = {
+    name: '',
+    email: '',
+    secretQuestion: '',
+    answer: '',
+    gender: ''
+  };
+  submitted = false;
 
   suggestUserName() {
     const suggestedName = 'Superuser';
@@ -39,8 +47,23 @@ export class AppComponent {
 
   // use @ViewChild method
   onSubmit() {
-    console.log(this.signupForm);
+    //console.log(this.signupForm);
     //console.log(this.signupForm.valid);
+
+    this.submitted = true;
+
+    this.user.name = this.signupForm.value.userData.username;
+    this.user.email = this.signupForm.value.userData.emailaddress;
+    this.user.secretQuestion = this.signupForm.value.secret;
+    this.user.answer = this.signupForm.value.questionAnswer;
+    this.user.gender = this.signupForm.value.gender;
+
+    // reset form after form data have been transmitted to application
+    this.signupForm.reset();
+  }
+
+  onReset() {
+    this.signupForm.reset();
   }
 
 
