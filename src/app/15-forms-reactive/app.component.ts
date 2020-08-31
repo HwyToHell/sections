@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, createPlatform } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 
@@ -54,6 +54,30 @@ export class AppComponent implements OnInit {
       }),
       'gender': new FormControl('male'),
       'hobbies': new FormArray([])
+    });
+    
+    // this.signupForm.valueChanges.subscribe(
+    //   (value) => console.log(value)
+    // );
+    this.signupForm.statusChanges.subscribe(
+      (value) => console.log(value)
+    );
+
+    // setValue -> all controls must be provided
+    this.signupForm.setValue({
+      'userData': {
+        'username': 'Anna',
+        'email': 'carla.grzonka@web.de'
+      },
+      'gender': 'female',
+      'hobbies': []
+    });
+
+    // patchValue -> subset of controls possible
+    this.signupForm.patchValue({
+      'userData': {
+        'username': 'Carla'
+      }
     });
   }
 
