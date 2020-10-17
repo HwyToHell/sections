@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  // app status loaded with delay
+  appStatus = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('stable');
+    }, 2000);
+  });
+
   servers = [
     {
       instanceType: 'medium',
@@ -42,4 +50,14 @@ export class AppComponent {
       'list-group-item-danger': server.status === 'critical'
     };
   }
+
+  onAddServer() {
+    this.servers.push({
+      instanceType: 'small',
+      name: 'Added Server',
+      status: 'stable',
+      started: new Date(Date.now())
+    });
+  }
+
 }
