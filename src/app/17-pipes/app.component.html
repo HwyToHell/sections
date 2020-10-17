@@ -1,14 +1,15 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+      <input type="text" [(ngModel)]="filteredStatus">
       <ul class="list-group">
         <li
           class="list-group-item"
-          *ngFor="let server of servers"
+          *ngFor="let server of servers | filter: filteredStatus: 'status'"
           [ngClass]="getStatusClasses(server)">
-          <strong>{{ server.name | shorten | uppercase }}</strong> | 
+          <strong>{{ server.name | shorten: 5 | uppercase }}</strong> | 
             {{ server.instanceType | uppercase }} |
-            {{ server.started | date: 'fullDate' | uppercase}}
+            {{ server.started | date: 'fullDate' }}
           <span
           class="badge badge-secondary float-right">
           {{ server.status }}
