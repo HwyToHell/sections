@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+
+import { Post } from './post.model';
+
 
 @Component({
   selector: 'app-root',
@@ -11,9 +15,23 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
 
-  fetchPosts() {
+  private fetchPosts() {
     this.http
-      .get('https://ng-shopping-47ffb.firebaseio.com/posts.json')
+      .get<{ [key: string]: Post }>('https://ng-shopping-47ffb.firebaseio.com/posts.json')
+      .pipe(
+        map((responseData) => {
+          const postsArray: Post[] = [];
+          // key = firebase record ID
+          for (const key in responseData) {
+            // avoid accessing property of prototype
+            if (responseData.hasOwnProperty(key)) {
+              // responseDate[key] = { content, title }
+              postsArray.push({ id: key, ...responseData[key] }); 
+            }
+          }
+          return postsArray;
+        })
+      )
       .subscribe(posts => {
         console.log(posts);
       });
@@ -23,7 +41,7 @@ export class AppComponent implements OnInit {
     this.fetchPosts();
   }
 
-  onCreatePost(postData: { title: string; content: string }) {
+  onCreatePost(postData: Post) {
     // Send Http request
 
     console.log('create post\n', postData);
