@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 import { Post } from './post.model';
+import { PostsService } from './posts.service';
 
 
 @Component({
@@ -11,30 +11,17 @@ import { Post } from './post.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  loadedPosts = [];
+  isFetching = false;
+  loadedPosts: Post[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private postsService: PostsService) {}
 
   private fetchPosts() {
-    this.http
-      .get<{ [key: string]: Post }>('https://ng-shopping-47ffb.firebaseio.com/posts.json')
-      .pipe(
-        map((responseData) => {
-          const postsArray: Post[] = [];
-          // key = firebase record ID
-          for (const key in responseData) {
-            // avoid accessing property of prototype
-            if (responseData.hasOwnProperty(key)) {
-              // responseDate[key] = { content, title }
-              postsArray.push({ id: key, ...responseData[key] }); 
-            }
-          }
-          return postsArray;
-        })
-      )
-      .subscribe(posts => {
-        console.log(posts);
-      });
+    this.isFetching = true;
+    this.postsService.fetchPosts().subscribe(posts => {
+      this.isFetching = false;
+      this.loadedPosts = posts;
+    });
   }
 
   ngOnInit() {
@@ -43,17 +30,8 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: Post) {
     // Send Http request
-
     console.log('create post\n', postData);
-
-    this.http
-      .post(
-        'https://ng-shopping-47ffb.firebaseio.com/posts.json',
-        postData
-      )
-      .subscribe(responseData => {
-        console.log(responseData);
-      });
+    this.postsService.createAndStorePost(postData.title, postData.content);
   }
 
   onClearPosts() {
@@ -61,7 +39,6 @@ export class AppComponent implements OnInit {
   }
   
   onFetchPosts() {
-    // Send Http request
     this.fetchPosts();
   }
 
