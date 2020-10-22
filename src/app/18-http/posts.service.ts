@@ -6,7 +6,7 @@ import { Post } from './post.model';
 
 @Injectable({providedIn: 'root'})
 export class PostsService {
-    
+
     constructor(private http: HttpClient) {}
 
     createAndStorePost(title: string, content: string) {
@@ -21,23 +21,28 @@ export class PostsService {
         });
     }
 
+    deletePosts() {
+    // delete all data by specifiying posts.json
+      return this.http.delete('https://ng-shopping-47ffb.firebaseio.com/posts.json');
+    }
+
     fetchPosts() {
-        return this.http
-        .get<{ [key: string]: Post }>('https://ng-shopping-47ffb.firebaseio.com/posts.json')
-        .pipe(
-          map((responseData) => {
-            const postsArray: Post[] = [];
-            // key = firebase record ID
-            for (const key in responseData) {
-              // avoid accessing property of prototype
-              if (responseData.hasOwnProperty(key)) {
-                // responseDate[key] = { content, title }
-                postsArray.push({ id: key, ...responseData[key] }); 
-              }
+      return this.http
+      .get<{ [key: string]: Post }>('https://ng-shopping-47ffb.firebaseio.com/posts.json')
+      .pipe(
+        map((responseData) => {
+          const postsArray: Post[] = [];
+          // key = firebase record ID
+          for (const key in responseData) {
+            // avoid accessing property of prototype
+            if (responseData.hasOwnProperty(key)) {
+              // responseDate[key] = { content, title }
+              postsArray.push({ id: key, ...responseData[key] });
             }
-            return postsArray;
-          })
-        );
+          }
+          return postsArray;
+        })
+      );
     }
 
 }
