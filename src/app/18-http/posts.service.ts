@@ -26,6 +26,12 @@ export class PostsService {
       return this.http.delete('https://ng-shopping-47ffb.firebaseio.com/posts.json');
     }
 
+    deleteSinglePost(id: string) {
+      const url = 'https://ng-shopping-47ffb.firebaseio.com/posts/' + id + '.json';
+      console.log(url);
+        return this.http.delete(url);
+    }
+
     fetchPosts() {
       return this.http
       .get<{ [key: string]: Post }>('https://ng-shopping-47ffb.firebaseio.com/posts.json')
