@@ -1,54 +1,64 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { Post } from './post.model';
+
 
 @Injectable({providedIn: 'root'})
 export class PostsService {
 
-    constructor(private http: HttpClient) {}
+  error = new Subject<string>();
 
-    createAndStorePost(title: string, content: string) {
-        const postData: Post = {title: title, content: content}
-        this.http
-        .post<{ name: string }>(
-          'https://ng-shopping-47ffb.firebaseio.com/posts.json',
-          postData
-        )
-        .subscribe(responseData => {
-          console.log(responseData);
-        });
-    }
+  constructor(private http: HttpClient) {}
 
-    deletePosts() {
-    // delete all data by specifiying posts.json
-      return this.http.delete('https://ng-shopping-47ffb.firebaseio.com/posts.json');
-    }
+  createAndStorePost(title: string, content: string) {
+      const postData: Post = {title: title, content: content}
+      this.http
+      .post<{ name: string }>(
+        'https://ng-shopping-47ffb.firebaseio.com/posts.json',
+        postData
+      )
+      .subscribe(responseData => {
+        console.log(responseData);
+      }, error => {
+        this.error.next(error.message);
+      });
+  }
 
-    deleteSinglePost(id: string) {
-      const url = 'https://ng-shopping-47ffb.firebaseio.com/posts/' + id + '.json';
-      console.log(url);
-        return this.http.delete(url);
-    }
+  deletePosts() {
+  // delete all data by specifiying posts.json
+    return this.http.delete('https://ng-shopping-47ffb.firebaseio.com/posts.json');
+  }
 
-    fetchPosts() {
-      return this.http
-      .get<{ [key: string]: Post }>('https://ng-shopping-47ffb.firebaseio.com/posts.json')
-      .pipe(
-        map((responseData) => {
-          const postsArray: Post[] = [];
-          // key = firebase record ID
-          for (const key in responseData) {
-            // avoid accessing property of prototype
-            if (responseData.hasOwnProperty(key)) {
-              // responseDate[key] = { content, title }
-              postsArray.push({ id: key, ...responseData[key] });
-            }
+  deleteSinglePost(id: string) {
+    const url = 'https://ng-shopping-47ffb.firebaseio.com/posts/' + id + '.json';
+    console.log(url);
+      return this.http.delete(url);
+  }
+
+  fetchPosts() {
+    return this.http
+    .get<{ [key: string]: Post }>('https://ng-shopping-47ffb.firebaseio.com/posts.json')
+    .pipe(
+      map((responseData) => {
+        const postsArray: Post[] = [];
+        // key = firebase record ID
+        for (const key in responseData) {
+          // avoid accessing property of prototype
+          if (responseData.hasOwnProperty(key)) {
+            // responseDate[key] = { content, title }
+            postsArray.push({ id: key, ...responseData[key] });
           }
-          return postsArray;
-        })
-      );
-    }
+        }
+        return postsArray;
+      }),
+      catchError(errorResponse => {
+        // e.g. send to analytics server
+        return throwError(errorResponse); // alternative: return custom response
+      })
+    );
+  }
 
 }
